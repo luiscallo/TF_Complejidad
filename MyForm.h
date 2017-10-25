@@ -248,11 +248,11 @@ namespace Project9 {
 		case Keys::NumPad0:
 			nuevo->Getjug(1)->NuevaBomba(nuevo->map());
 			if (timer3->Enabled)
-				nuevo->Getjug(1)->NuevaBomba(nuevo->map());
+				nuevo2->Getjug(1)->NuevaBomba(nuevo2->map());
 			break;
 		case Keys::Space:
 			if (timer3->Enabled)
-				nuevo->Getjug(2)->NuevaBomba(nuevo->map());
+				nuevo2->Getjug(2)->NuevaBomba(nuevo2->map());
 			break;
 		case Keys::Escape:
 			timer1->Enabled = false;
