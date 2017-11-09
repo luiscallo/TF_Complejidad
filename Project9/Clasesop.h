@@ -165,6 +165,7 @@ public:
 	Jugador();
 	Jugador(int x, int y, bool act);
 	~Jugador();
+	// void getNextPlayerPosition();
 	void Mover(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li);
 	void NuevaBomba(int **map);
 	void ColocarBomb(BufferedGraphics ^buffer, Bitmap^ img, int x, int y, int** map);
@@ -197,6 +198,9 @@ Jugador::Jugador(int x, int y, bool act) {
 	this->dy = 0;
 }
 Jugador::~Jugador() {}
+
+// void Jugador::getNextPlayerPosition() {}
+
 void Jugador::Mover(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li) {
 	int x = pos.x, y = pos.y;
 	int monedasfalt = 0;

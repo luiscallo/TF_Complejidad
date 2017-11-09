@@ -91,19 +91,22 @@ namespace Project9 {
 			// 
 			// btn2V2
 			// 
-			this->btn2V2->Location = System::Drawing::Point(438, 234);
+			this->btn2V2->Location = System::Drawing::Point(584, 288);
+			this->btn2V2->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btn2V2->Name = L"btn2V2";
-			this->btn2V2->Size = System::Drawing::Size(138, 73);
+			this->btn2V2->Size = System::Drawing::Size(184, 90);
 			this->btn2V2->TabIndex = 4;
 			this->btn2V2->Text = L"Multijugador";
 			this->btn2V2->UseVisualStyleBackColor = true;
+			this->btn2V2->Visible = false;
 			this->btn2V2->Click += gcnew System::EventHandler(this, &MyForm::btn2V2_Click);
 			// 
 			// btn1v1
 			// 
-			this->btn1v1->Location = System::Drawing::Point(99, 234);
+			this->btn1v1->Location = System::Drawing::Point(132, 288);
+			this->btn1v1->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->btn1v1->Name = L"btn1v1";
-			this->btn1v1->Size = System::Drawing::Size(138, 73);
+			this->btn1v1->Size = System::Drawing::Size(184, 90);
 			this->btn1v1->TabIndex = 3;
 			this->btn1v1->Text = L"Un Jugador";
 			this->btn1v1->UseVisualStyleBackColor = true;
@@ -117,7 +120,8 @@ namespace Project9 {
 			// fonditoWe
 			// 
 			this->fonditoWe->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"fonditoWe.Image")));
-			this->fonditoWe->Location = System::Drawing::Point(-2, -27);
+			this->fonditoWe->Location = System::Drawing::Point(-3, -33);
+			this->fonditoWe->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->fonditoWe->Name = L"fonditoWe";
 			this->fonditoWe->Size = System::Drawing::Size(704, 448);
 			this->fonditoWe->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
@@ -130,13 +134,14 @@ namespace Project9 {
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(695, 386);
+			this->ClientSize = System::Drawing::Size(927, 475);
 			this->Controls->Add(this->btn2V2);
 			this->Controls->Add(this->btn1v1);
 			this->Controls->Add(this->fonditoWe);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"MyForm";
 			this->Text = L"Bomberman";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -245,7 +250,7 @@ namespace Project9 {
 			//nuevo->Getjug(1)->moverse(false);
 
 			break;
-		case Keys::NumPad0:
+		case Keys::B:
 			nuevo->Getjug(1)->NuevaBomba(nuevo->map());
 			if (timer3->Enabled)
 				nuevo2->Getjug(1)->NuevaBomba(nuevo2->map());
@@ -334,5 +339,6 @@ private: System::Void timer3_Tick(System::Object^  sender, System::EventArgs^  e
 	delete buffer;
 	delete context;
 }
+
 };
 }
