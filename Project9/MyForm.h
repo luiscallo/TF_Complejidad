@@ -46,6 +46,8 @@ namespace Project9 {
 	private: System::Windows::Forms::Timer^  timer3;
 
 			 Bitmap^ Bomber;
+			 // Jugador
+			 Jugador* jugador;
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -87,12 +89,13 @@ namespace Project9 {
 			// 
 			// timer1
 			// 
+			this->timer1->Interval = 200;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
 			// btn2V2
 			// 
 			this->btn2V2->Location = System::Drawing::Point(584, 288);
-			this->btn2V2->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->btn2V2->Margin = System::Windows::Forms::Padding(4);
 			this->btn2V2->Name = L"btn2V2";
 			this->btn2V2->Size = System::Drawing::Size(184, 90);
 			this->btn2V2->TabIndex = 4;
@@ -104,7 +107,7 @@ namespace Project9 {
 			// btn1v1
 			// 
 			this->btn1v1->Location = System::Drawing::Point(132, 288);
-			this->btn1v1->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->btn1v1->Margin = System::Windows::Forms::Padding(4);
 			this->btn1v1->Name = L"btn1v1";
 			this->btn1v1->Size = System::Drawing::Size(184, 90);
 			this->btn1v1->TabIndex = 3;
@@ -121,7 +124,7 @@ namespace Project9 {
 			// 
 			this->fonditoWe->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"fonditoWe.Image")));
 			this->fonditoWe->Location = System::Drawing::Point(-3, -33);
-			this->fonditoWe->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->fonditoWe->Margin = System::Windows::Forms::Padding(4);
 			this->fonditoWe->Name = L"fonditoWe";
 			this->fonditoWe->Size = System::Drawing::Size(704, 448);
 			this->fonditoWe->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
@@ -141,7 +144,7 @@ namespace Project9 {
 			this->Controls->Add(this->btn1v1);
 			this->Controls->Add(this->fonditoWe);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MyForm";
 			this->Text = L"Bomberman";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -166,7 +169,9 @@ namespace Project9 {
 		Bomber->MakeTransparent(Bomber->GetPixel(0, 0));
 		nuevo = new Mapa(1);
 		nuevo2 = new Mapa(2);
-		
+
+		// Inicializar jugador
+		jugador = nuevo->Getjug(1);
 
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
@@ -174,6 +179,11 @@ namespace Project9 {
 		BufferedGraphicsContext^ context = BufferedGraphicsManager::Current;
 		buffer = context->Allocate(g, this->ClientRectangle);
 		Bomber->MakeTransparent(Bomber->GetPixel(1, 1));
+
+		// Obtener jugador y actualizar posición
+		posicion nextPos = jugador->obtenerSiguientePosicion();
+		jugador->moverSiguientePosicion(buffer, Bomber, nuevo->map(), nuevo->getMapas(), nextPos);
+
 		nuevo->Dibujar(buffer, Bomber, tile1, tile2, tile3, tile4, tile5, 1, false, fondo);
 		buffer->Render(g);
 		delete g;
@@ -181,6 +191,8 @@ namespace Project9 {
 		delete buffer;
 		delete context;
 	}
+
+
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 		
 		switch (e->KeyCode)
@@ -297,6 +309,7 @@ namespace Project9 {
 			nuevo->set_coli(false);
 		}*/
 	}
+
 private: System::Void btn2V2_Click(System::Object^  sender, System::EventArgs^  e) {
 	fonditoWe->Visible = false;
 	btn1v1->Visible = false;

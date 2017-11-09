@@ -161,11 +161,16 @@ class Jugador {
 	Direcciones ultima;
 	int Indx;
 	int Indy;
+	// Propiedades para grabar posición de salida
+	int salidaX;
+	int salidaY;
 public:
 	Jugador();
 	Jugador(int x, int y, bool act);
 	~Jugador();
-	// void getNextPlayerPosition();
+	void informarPosicionSalida(int X, int Y);
+	posicion obtenerSiguientePosicion();
+	void moverSiguientePosicion(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li, posicion nextPos);
 	void Mover(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li);
 	void NuevaBomba(int **map);
 	void ColocarBomb(BufferedGraphics ^buffer, Bitmap^ img, int x, int y, int** map);
@@ -196,10 +201,38 @@ Jugador::Jugador(int x, int y, bool act) {
 	this->Indy = 0;
 	this->dx = 0;
 	this->dy = 0;
+
+	this->salidaX = 0;
+	this->salidaY = 0;
 }
 Jugador::~Jugador() {}
 
-// void Jugador::getNextPlayerPosition() {}
+void Jugador::informarPosicionSalida(int X, int Y) {
+	this->salidaX = X;
+	this->salidaY = Y;
+}
+
+posicion Jugador::obtenerSiguientePosicion() {
+	posicion nextPos;
+
+	// TODO: Implementar algoritmo greedy
+
+	// Calcular la ruta más corta para llegar a la salida
+
+	// Avanzar al siguiente casillero en la ruta calculada y coloca una bomba, luego retorna al casillero diagonal libre mas cercano, si no está disponible, retorna 2 casilleros en linea opuesta a la bomba.
+
+	// Una vez que explota la bomba, y desaparece la explosión (controlar con flag que se actualiza con el timer), el jugador avanza a la última posición visitada (donde colocó la bomba) y vuelve a ejecutar el algoritmo
+	nextPos.x = salidaX;
+	nextPos.y = salidaY;
+
+	return nextPos;
+}
+
+void Jugador::moverSiguientePosicion(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li, posicion nextPos) {
+	this->pos.x = nextPos.x;
+	this->pos.y = nextPos.y;
+	this->Mover(buffer, jug, map, li);
+}
 
 void Jugador::Mover(BufferedGraphics ^buffer, Bitmap^ jug, int** map, list<int**>* li) {
 	int x = pos.x, y = pos.y;
@@ -549,6 +582,7 @@ public:
 	~Mapa();
 	Jugador* Getjug(int i);
 	int** map();
+	list<int**>* getMapas();
 	bool Mapa::colicion(int pX, int pY, Bitmap^ img);
 	void Dibujar(BufferedGraphics ^buffer, Bitmap^P1, Bitmap^muro, Bitmap^Pared, Bitmap^monedas, Bitmap^PU, Bitmap^alida, int nivel, bool dosP, Bitmap^Fondo);
 	bool get_coli();
@@ -596,6 +630,9 @@ Jugador* Mapa::Getjug(int i) {
 int** Mapa::map() {
 	return mapas->front();
 }
+list<int**>* Mapa::getMapas() {
+	return mapas;
+}
 void Mapa::sigmapa() {
 	if (mapas->size() > 1) { mapas->pop_front(); }
 	else { return; }
@@ -639,6 +676,10 @@ void Mapa::Dibujar(BufferedGraphics ^buffer, Bitmap^Player, Bitmap^muro, Bitmap^
 			case 4:
 				salida = new Salida(X, Y);
 				salida->dibujar(buffer, alida);
+
+				// Informar de la posición de la salida al jugador (para cada nivel)
+				P1->informarPosicionSalida(X, Y);
+				
 				aumento = System::Drawing::Rectangle(X, Y, 32, 32);
 				break;
 			case 5:
